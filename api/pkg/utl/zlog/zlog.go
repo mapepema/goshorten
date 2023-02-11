@@ -30,7 +30,7 @@ func (z *Log) Log(ctx fiber.Ctx, source, msg string, err error, params map[strin
 
 	params["source"] = source
 
-	if id := ctx.Get("id"); id != 
+	if id := ctx.Get("id"); id != "" {
 		params["id"] = id
 	}
 

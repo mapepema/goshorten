@@ -9,29 +9,25 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-
-func TestSecureHaeders(t *testing.T) {
+func TestSecureCors(t *testing.T) {
 	tests := []struct {
-		description string
-		route string
+		description  string
+		route        string
 		expectedCode int
-		headers map[string]string
-	} {
+		headers      map[string]string
+	}{
 		{
-			description: "get HTTP status 200",
-			route: "/hello",
+			description:  "get HTTP status 200",
+			route:        "/hello",
 			expectedCode: 200,
 			headers: map[string]string{
-				"X-Content-Type-Options": "nosniff",
-				"X-DNS-Prefetch-Control": "off",
-				"X-Frame-Options": "DENY",
-				"Strict-Transport-Security": "max-age=5184000; includeSubDomains",
-				"X-Download-Options": "noopen",
-				"X-XSS-Protection": "1; mode=block",
+				// "Access-Control-Max-Age": "86400", // default not passed
+				//"Access-Control-Allow-Methods":     "POST,GET,PUT,DELETE,PATCH,HEAD", // default not passed
+				"Access-Control-Expose-Headers": "Content-Length",
+				//"Access-Control-Allow-Credentials": "true", // default not passed
 			},
 		},
 	}
-
 
 	app := fiber.New()
 	app.Use(secure.CORS())
@@ -48,9 +44,10 @@ func TestSecureHaeders(t *testing.T) {
 		assert.Equalf(t, test.expectedCode, resp.StatusCode, test.description)
 
 		for header, attended := range test.headers {
-			assert.Equal(t, req.)
+			t.Log(header)
+			t.Log(resp.Header)
+			t.Log(resp.Header.Get("Access-Control-Allow-Origin"))
+			assert.Equal(t, resp.Header.Get(header), attended)
 		}
 	}
-
-
 }
