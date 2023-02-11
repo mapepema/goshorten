@@ -1,0 +1,12 @@
+database:
+  log_queries: true
+  timeout: 15
+
+server:
+  port: :3000
+  debug: "ok"
+  read_timeout_seconds: true
+  write_timeout_seconds: "string"
+
+application:
+  swagger_ui_path: "assets/swagger"
